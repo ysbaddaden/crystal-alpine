@@ -1,14 +1,14 @@
 # Contributor: Julien Portalier <julien@portalier.com>
 # Maintainer: Julien Portalier <julien@portalier.com>
 pkgname=shards
-pkgver=0.6.1
+pkgver=0.6.2
 pkgrel=1
 pkgdesc="Dependency manager for the Crystal programming language"
 url="https://github.com/crystal-lang/shards/"
 arch="all"
 license="ASL 2.0"
-depends="libevent pcre yaml"
-makedepends="crystal yaml-dev"
+depends="gc libevent pcre yaml"
+makedepends="crystal gc-dev libevent-dev pcre-dev yaml-dev"
 install=""
 subpackages=""
 source="saveas-https://github.com/crystal-lang/shards/archive/v$pkgver.tar.gz/shards-$pkgver.tar.gz"
@@ -28,6 +28,6 @@ package() {
     install -Dm0755 "$_builddir"/bin/shards "$pkgdir"/usr/bin/shards
 }
 
-md5sums="2870bafe45088b4ec73017c96186ac27  shards-0.6.1.tar.gz"
-sha256sums="8e7d179a499a2fca895b534c6204e2e34828e6a645e48f83f08fbefcd6a03951  shards-0.6.1.tar.gz"
-sha512sums="fc1e32cf459a5c448ef780601b9515cd331fc40d3f6f0666e71e218a62e202e0d4f642f5e82660529d24145a5ed5f5cbf2fdc6fc251421850d9c7ac1ebcf4d07  shards-0.6.1.tar.gz"
+md5sums="d0970a861494657aa431aaebbd2be60c  shards-0.6.2.tar.gz"
+sha256sums="11d22086d736598efa87eea558e7b304d538372f017fce9bb21476e40c586110  shards-0.6.2.tar.gz"
+sha512sums="baeebe496ea52c93313e9a550a8f1dda225674ca49e9e2b2660b059a8e7cd6a148085d33d5c70a46d2d4c7db9260f841a634c079cc590576a6d98c9308fb1100  shards-0.6.2.tar.gz"
