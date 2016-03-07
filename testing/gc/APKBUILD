@@ -1,0 +1,64 @@
+# Maintainer: Natanael Copa <ncopa@alpinelinux.org>
+pkgname=gc
+pkgver=7.4.2
+pkgrel=2
+pkgdesc="A garbage collector for C and C++"
+url="http://hboehm.info/gc/"
+arch="all"
+license="GPL"
+depends=
+makedepends='libatomic_ops-dev linux-headers'
+subpackages="$pkgname-dev $pkgname-doc libgc++:libgccpp"
+source="http://hboehm.info/gc/gc_source/gc-$pkgver.tar.gz
+	fix-boehm-gc.patch
+	gc-push-all-eager.patch
+    fix-gc-push-all-eager.patch
+	"
+
+_builddir="$srcdir"/gc-${pkgver%[a-z]}
+prepare() {
+	cd "$_builddir"
+	for i in $source; do
+		case $i in
+		*.patch) msg $i; patch -p1 -i "$srcdir"/$i || return 1;;
+		esac
+	done
+}
+
+build() {
+	cd "$_builddir"
+	[ "$CLIBC" = "musl" ] && export CFLAGS="$CFLAGS -D_GNU_SOURCE -DNO_GETCONTEXT -DUSE_MMAP -DHAVE_DL_ITERATE_PHDR"
+	./configure \
+		--build=$CBUILD \
+		--host=$CHOST \
+		--prefix=/usr \
+		--datadir=/usr/share/doc/gc \
+		--enable-cplusplus \
+		--disable-static \
+		|| return 1
+	make || return 1
+}
+
+package() {
+	cd "$_builddir"
+	make DESTDIR="$pkgdir" install || return 1
+	rm "$pkgdir"/usr/lib/*.la
+}
+
+libgccpp() {
+	install -d "$subpkgdir"/usr/lib
+	mv "$pkgdir"/usr/lib/libgccpp.* "$subpkgdir"/usr/lib/
+}
+
+md5sums="12c05fd2811d989341d8c6d81f66af87  gc-7.4.2.tar.gz
+2580315e6df59bb167b8292c351f82f5  fix-boehm-gc.patch
+e05d2af1044959155959252661b1282f  gc-push-all-eager.patch
+c44813c80404ef18402e05a3cf18c34d  fix-gc-push-all-eager.patch"
+sha256sums="63320ad7c45460e4a40e03f5aa4c6893783f21a16416c3282b994f933312afa2  gc-7.4.2.tar.gz
+da9ffdb4e7abc3deaaa19ef9de118311a8cf67268df36085c80412b1a60307d1  fix-boehm-gc.patch
+b1c0ae7bce099c2f8c87f6683566e41af1fdc4012f03d682d5952575b53042d4  gc-push-all-eager.patch
+960e4e3d0b2eb808e0a5ab27cbf4aaefc083647348660331e384b9d7bbda6d6f  fix-gc-push-all-eager.patch"
+sha512sums="2e21516addf268780641ee55c0cb3ecc2d96fa963faffee5beadcade9c6bf1ee49ee1a75b076b5d49ddde7c839fb94f4c3623ca8412d14c2a5bf6ca30d424a72  gc-7.4.2.tar.gz
+f2b533f0a96dabf8ed33316c393ea2878cb3968879e50155c71fbb50bf0cad3fe08836847dcc5c2bc32ad2dae64b8607bf92fa863224e3ca407ef62d61b663bb  fix-boehm-gc.patch
+b74a5793ab56a7dd836600a30ead7bdf9652c5803f785e5128770852362d927f822447dcb6040e9f73227fa6fcf964a45f6fa2928af8626eac8a21dbf94506b6  gc-push-all-eager.patch
+f35b91adfe8a39bb2ad7f07e0b2f2cf7300fd57674d2548f9f761ac00fa9272b9dc6269b69663f99ed15b13df4ce2c7b3a3c6690df6b1126f763e17999ea6bff  fix-gc-push-all-eager.patch"

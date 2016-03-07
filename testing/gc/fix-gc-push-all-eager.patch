@@ -1,0 +1,46 @@
+From 1a49011e0ab0ab29df237eec8556df29c9af9c31 Mon Sep 17 00:00:00 2001
+From: Ivan Maidanski <ivmai@mail.ru>
+Date: Fri, 7 Aug 2015 21:00:36 +0300
+Subject: [PATCH] Fix exporting of GC_push_all_eager
+
+* include/gc_mark.h (GC_push_all_eager): Move comment from gc_priv.h.
+* include/private/gc_priv.h (GC_push_all_eager): Remove (because has
+it might have calling conventions different from that in gc.h).
+---
+ include/gc_mark.h         | 3 ++-
+ include/private/gc_priv.h | 5 -----
+ 2 files changed, 2 insertions(+), 6 deletions(-)
+
+diff --git a/include/gc_mark.h b/include/gc_mark.h
+index 7edb7f5..d5dc42e 100644
+--- a/include/gc_mark.h
++++ b/include/gc_mark.h
+@@ -274,7 +274,8 @@ GC_API void GC_CALL GC_set_mark_bit(const void *) GC_ATTR_NONNULL(1);
+ 
+ /* Push everything in the given range onto the mark stack.              */
+ /* (GC_push_conditional pushes either all or only dirty pages depending */
+-/* on the third argument.)                                              */
++/* on the third argument.)  GC_push_all_eager also ensures that stack   */
++/* is scanned immediately, not just scheduled for scanning.             */
+ GC_API void GC_CALL GC_push_all(char * /* bottom */, char * /* top */);
+ GC_API void GC_CALL GC_push_all_eager(char * /* bottom */, char * /* top */);
+ GC_API void GC_CALL GC_push_conditional(char * /* bottom */, char * /* top */,
+diff --git a/include/private/gc_priv.h b/include/private/gc_priv.h
+index f3f0718..f3a26d2 100644
+--- a/include/private/gc_priv.h
++++ b/include/private/gc_priv.h
+@@ -1606,11 +1606,6 @@ GC_INNER GC_bool GC_collection_in_progress(void);
+ GC_INNER void GC_push_all_stack(ptr_t b, ptr_t t);
+                                     /* As GC_push_all but consider      */
+                                     /* interior pointers as valid.      */
+-GC_INNER void GC_push_all_eager(ptr_t b, ptr_t t);
+-                                    /* Same as GC_push_all_stack, but   */
+-                                    /* ensures that stack is scanned    */
+-                                    /* immediately, not just scheduled  */
+-                                    /* for scanning.                    */
+ 
+   /* In the threads case, we push part of the current thread stack      */
+   /* with GC_push_all_eager when we push the registers.  This gets the  */
+-- 
+1.9.1
+

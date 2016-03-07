@@ -1,0 +1,101 @@
+From 141fe7029056f3e96eef6a2f71d690b8059e162f Mon Sep 17 00:00:00 2001
+From: Julien Portalier <julien@portalier.com>
+Date: Mon, 8 Feb 2016 17:56:47 +0100
+Subject: [PATCH 3/5] Use tzset and timezone on Linux
+
+`gettimeofday` is deprecated and the returned timezone struct is
+invalid on musl-libc, so we shall use `tzset` and the linux-specific
+`timezone` integer.
+---
+ src/time/time.cr | 42 +++++++++++++++++++++++++++++++-----------
+ 1 file changed, 31 insertions(+), 11 deletions(-)
+
+diff --git a/src/time/time.cr b/src/time/time.cr
+index 6548fd9..21e7d39 100644
+--- a/src/time/time.cr
++++ b/src/time/time.cr
+@@ -5,6 +5,15 @@ lib LibC
+   end
+ 
+   fun gettimeofday(tp : TimeVal*, tzp : TimeZone*) : Int
++
++  ifdef linux
++    fun tzset() : Void
++    $timezone : Int
++  end
++end
++
++ifdef linux
++  LibC.tzset
+ end
+ 
+ # The `Time` library allows you to inspect, analyze, calculate, and format time. Here are some examples:
+@@ -507,13 +516,13 @@ struct Time
+   end
+ 
+   def self.local_ticks
+-    compute_ticks do |ticks, tp, tzp|
+-      ticks - (tzp.tz_minuteswest.to_i64 * Span::TicksPerMinute)
++    compute_ticks do |ticks, tp, tz|
++      ticks - tz
+     end
+   end
+ 
+   def self.utc_ticks
+-    compute_ticks do |ticks, tp, tzp|
++    compute_ticks do |ticks, tp, tz|
+       ticks
+     end
+   end
+@@ -525,21 +534,25 @@ struct Time
+   # Time.local_offset_in_minutes # => -180
+   # ```
+   def self.local_offset_in_minutes
+-    if LibC.gettimeofday(nil, out tzp) != 0
+-      raise Errno.new("gettimeofday")
++    ifdef linux
++      -LibC.timezone.to_i32 / 60
++    else
++      if LibC.gettimeofday(nil, out tzp) != 0
++        raise Errno.new("gettimeofday")
++      end
++      -tzp.tz_minuteswest.to_i32
+     end
+-    -tzp.tz_minuteswest.to_i32
+   end
+ 
+   protected def self.compute_utc_ticks(ticks)
+-    compute_ticks do |t, tp, tzp|
+-      ticks + tzp.tz_minuteswest.to_i64 * Span::TicksPerMinute
++    compute_ticks do |t, tp, tz|
++      ticks + tz
+     end
+   end
+ 
+   protected def self.compute_local_ticks(ticks)
+-    compute_ticks do |t, tp, tzp|
+-      ticks - tzp.tz_minuteswest.to_i64 * Span::TicksPerMinute
++    compute_ticks do |t, tp, tz|
++      ticks - tz
+     end
+   end
+ 
+@@ -549,7 +562,14 @@ struct Time
+     end
+     ticks = tp.tv_sec.to_i64 * Span::TicksPerSecond + tp.tv_usec.to_i64 * 10_i64
+     ticks += UnixEpoch
+-    yield ticks, tp, tzp
++
++    ifdef linux
++      tz = LibC.timezone.to_i64 / 60
++    else
++      tz = tzp.tz_minuteswest.to_i64
++    end
++
++    yield ticks, tp, tz * Span::TicksPerMinute
+   end
+ end
+ 
+-- 
+2.6.4
+
