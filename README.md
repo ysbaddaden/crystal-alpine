@@ -37,7 +37,7 @@ vagrant ssh alpine64 -c "cd /vagrant/testing/gc; abuild -r"
 vagrant ssh alpine64 -c "sudo apk update ; sudo apk add --upgrade gc gc-dev"
 ```
 
-## New Release
+### New Release
 
 When a new version of Crystal and/or Shards is released, edit the version
 numbers in the respective APKBUILD, then compute the checksums. For example:
@@ -46,3 +46,14 @@ numbers in the respective APKBUILD, then compute the checksums. For example:
 vagrant ssh alpine64 -c "cd /vagrant/testing/crystal; apk checksum"
 vagrant ssh alpine32 -c "cd /vagrant/testing/shards; apk checksum"
 ```
+
+## Specs
+
+In order to run the Crystal spec suite the following packages are required:
+
+```sh
+apk add libxml2-dev openssl-dev readline-dev gmp-dev yaml-dev
+```
+
+Please note that encoding specs use the GB2312 encoding that isn't supported by
+musl-libc and are thus failing.
