@@ -12,7 +12,7 @@ subpackages="$pkgname-dev $pkgname-doc libgc++:libgccpp"
 source="http://hboehm.info/gc/gc_source/gc-$pkgver.tar.gz
 	fix-boehm-gc.patch
 	gc-push-all-eager.patch
-    fix-gc-push-all-eager.patch
+	fix-gc-push-all-eager.patch
 	"
 
 _builddir="$srcdir"/gc-${pkgver%[a-z]}

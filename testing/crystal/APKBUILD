@@ -13,20 +13,19 @@ install=""
 subpackages=""
 source="
 	saveas-https://github.com/crystal-lang/crystal/archive/$pkgver.tar.gz/$pkgname-$pkgver.tar.gz
-    fix-musl-mmap.patch
+	fix-musl-mmap.patch
 	crystal
 	"
 _builddir="$srcdir"/$pkgname-$pkgver
 
 prepare() {
 	cd "$_builddir"
-    patch -p1 < ../fix-musl-mmap.patch
+	patch -p1 < ../fix-musl-mmap.patch
 }
 
 build() {
 	cd "$_builddir"
 	export CC=clang CXX=clang++ CRYSTAL_CONFIG_VERSION=$pkgver
-    export PATH=$PATH:/usr/local/bin
 	make release=1 || return 1
 }
 
