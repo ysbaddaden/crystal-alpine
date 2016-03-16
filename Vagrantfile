@@ -25,5 +25,8 @@ Vagrant.configure(2) do |config|
     apk add crystal
 
     addgroup vagrant abuild
+
+    # spec deps:
+    # apk add libxml2-dev openssl-dev readline-dev gmp-dev yaml-dev
   SHELL
 end

@@ -2,28 +2,31 @@
 # Maintainer: Julien Portalier <julien@portalier.com>
 pkgname=crystal
 pkgver=0.13.0
-pkgrel=1
+pkgrel=2
 pkgdesc="Crystal programming language"
 url="http://crystal-lang.org/"
 arch="all"
 license="ASL 2.0"
-depends="gc llvm-libs libevent pcre ncurses-libs zlib"
-makedepends="bash build-base clang gc-dev libevent-dev llvm-dev pcre-dev ncurses-dev zlib-dev"
+depends="gc-dev libc-dev llvm-libs libevent-dev pcre-dev"
+makedepends="bash clang llvm-dev ncurses-dev zlib-dev"
 install=""
 subpackages=""
 source="
 	saveas-https://github.com/crystal-lang/crystal/archive/$pkgver.tar.gz/$pkgname-$pkgver.tar.gz
+    fix-musl-mmap.patch
 	crystal
 	"
 _builddir="$srcdir"/$pkgname-$pkgver
 
 prepare() {
 	cd "$_builddir"
+    patch -p1 < ../fix-musl-mmap.patch
 }
 
 build() {
 	cd "$_builddir"
 	export CC=clang CXX=clang++ CRYSTAL_CONFIG_VERSION=$pkgver
+    export PATH=$PATH:/usr/local/bin
 	make release=1 || return 1
 }
 
@@ -34,17 +37,20 @@ package() {
     mkdir -p $_bindir $_libdir
 
 	cp "$srcdir"/crystal "$_bindir"/crystal
+	cp "$_builddir"/.build/crystal "$_bindir"/crystal-binary
 	cp -r "$_builddir"/src "$_libdir"/
-	cp "$_builddir"/.build/crystal "$_libdir"/crystal-binary
 
+	find "$_bindir" -type f -exec chmod 0755 {} \;
 	find "$_libdir"/ -type d -exec chmod 0755 {} \;
-	find "$_bindir" "$_libdir" -type f -exec chmod 0755 {} \;
 	find "$_libdir"/src -type f -exec chmod 0644 {} \;
 }
 
 md5sums="13306284409b331f34f64ef5a5c6d241  crystal-0.13.0.tar.gz
+a74a32988bafce883c1a3e0f7791c80d  fix-musl-mmap.patch
 e94169a0db742837fce3fafe11754efa  crystal"
 sha256sums="abada1d7bd411dca52ac0df2124a188d61301bdcd1fc75e8419a24496ee8ff42  crystal-0.13.0.tar.gz
+eed09b3d6455af760c908d8c8065833f5fb9a9836fd309941699604ac9b66493  fix-musl-mmap.patch
 6f4280b2f168a3ddb15f5dcd7029d721c278ec11080d42b4283d0010933472de  crystal"
 sha512sums="4834172808f7035c9478aa342b7bc8fe6349844a6a64d4d2d3dd63ed44658edb0a4d115afee586370c00fc169dd42c2ac4c2027e7e96197c8b5594f103bbf1c7  crystal-0.13.0.tar.gz
+d011b2dd0bea22997125e5e01703b596b35df4ad24357140658a3a47efcac094a7c7eeb0178f743ff0776713a1446c36574cfa692ba15988bdb47d433de648e1  fix-musl-mmap.patch
 e9ee60f378d1e43b89753ae337c5133d4b0c92edf43ea20d5b1d69f91716729de3e61145d8c1cc5d14e468c76d4f26269e32be7c3fbbe7afd2b6278de85bae0b  crystal"
