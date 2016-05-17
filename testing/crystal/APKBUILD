@@ -1,7 +1,7 @@
 # Contributor: Julien Portalier <julien@portalier.com>
 # Maintainer: Julien Portalier <julien@portalier.com>
 pkgname=crystal
-pkgver=0.15.0
+pkgver=0.16.0
 pkgrel=1
 pkgdesc="Crystal programming language"
 url="http://crystal-lang.org/"
@@ -42,9 +42,9 @@ package() {
 	find "$_libdir"/src -type f -exec chmod 0644 {} \;
 }
 
-md5sums="161cb6a29639492eeea66b03e8daa691  crystal-0.15.0.tar.gz
+md5sums="a10533dd487324547c7cabd4cc1d1e0c  crystal-0.16.0.tar.gz
 e94169a0db742837fce3fafe11754efa  crystal"
-sha256sums="d79445ec92faa2a045af150fca4886d90ecd9fba27451003b68118c8714b26bd  crystal-0.15.0.tar.gz
+sha256sums="6bc77686da5cb7d1bf34397d6e57381d301a74d97420d1fb5ea7f13c4e8e1dc8  crystal-0.16.0.tar.gz
 6f4280b2f168a3ddb15f5dcd7029d721c278ec11080d42b4283d0010933472de  crystal"
-sha512sums="48da951e9502d882505d6c0e6dc9e9bc14cf24c3e666b33fe0d76e62fc075d8b80414686a202bbff8fcf77e61ac23438975c58bc011755d63db5a26641977ba7  crystal-0.15.0.tar.gz
+sha512sums="2b6befb3a6eb49ef630524fe6a11b3eac3e4c5238067bedd67e4ec785960086306a3b91d237085d1df0e991dbef48839c1f936b56a328d4e5b6a80806937ddae  crystal-0.16.0.tar.gz
 e9ee60f378d1e43b89753ae337c5133d4b0c92edf43ea20d5b1d69f91716729de3e61145d8c1cc5d14e468c76d4f26269e32be7c3fbbe7afd2b6278de85bae0b  crystal"
