@@ -1,19 +1,20 @@
 # Contributor: Julien Portalier <julien@portalier.com>
 # Maintainer: Julien Portalier <julien@portalier.com>
 pkgname=crystal
-pkgver=0.18.7
+pkgver=0.19.4
 pkgrel=1
 pkgdesc="Crystal programming language"
 url="http://crystal-lang.org/"
 arch="all"
 license="ASL 2.0"
-depends="gc-dev libc-dev llvm-libs libevent-dev pcre-dev"
-makedepends="bash clang llvm-dev ncurses-dev zlib-dev"
+depends="gc-dev libc-dev libevent-dev pcre-dev"
+makedepends="bash clang llvm-dev llvm-static ncurses-dev zlib-dev"
 install=""
 subpackages=""
 source="
 	saveas-https://github.com/crystal-lang/crystal/archive/$pkgver.tar.gz/$pkgname-$pkgver.tar.gz
 	crystal
+    x86.patch
 	"
 _builddir="$srcdir"/$pkgname-$pkgver
 
@@ -23,7 +24,10 @@ prepare() {
 
 build() {
 	cd "$_builddir"
-	export CC=clang CXX=clang++ CRYSTAL_CONFIG_VERSION=$pkgver
+    patch -p1 < "$srcdir"/x86.patch
+	#export CC=clang CXX=clang++
+    #export PATH=$HOME/bin:$PATH
+	export CRYSTAL_CONFIG_VERSION=$pkgver
 	make release=1 || return 1
 }
 
@@ -42,9 +46,12 @@ package() {
 	find "$_libdir"/src -type f -exec chmod 0644 {} \;
 }
 
-md5sums="799a41b06d2490666a2e5c9da0c2c272  crystal-0.18.7.tar.gz
-e94169a0db742837fce3fafe11754efa  crystal"
-sha256sums="72b33fd4bd903a9f0957c74c2f95429e8c0f94c04df86396711b5560f540805d  crystal-0.18.7.tar.gz
-6f4280b2f168a3ddb15f5dcd7029d721c278ec11080d42b4283d0010933472de  crystal"
-sha512sums="4d176036d0f003cc17be73e6a0a9c5c2c9df2764123051007156d86a7dc967c93821c3e087d8c1e27fe7f7b79efa43ea0503bc902813c5b322ca12cd2212da90  crystal-0.18.7.tar.gz
-e9ee60f378d1e43b89753ae337c5133d4b0c92edf43ea20d5b1d69f91716729de3e61145d8c1cc5d14e468c76d4f26269e32be7c3fbbe7afd2b6278de85bae0b  crystal"
+md5sums="27ebd5a7add2863d0241343f95df7075  crystal-0.19.4.tar.gz
+e94169a0db742837fce3fafe11754efa  crystal
+362aca53e484f15546ead26f7e82675a  x86.patch"
+sha256sums="e239afa449744e0381823531f6af66407ba1f4b78767bd67a9bb09d9fcc6b9e4  crystal-0.19.4.tar.gz
+6f4280b2f168a3ddb15f5dcd7029d721c278ec11080d42b4283d0010933472de  crystal
+5e92959b7a6a5b17df495f3aa997d9babd8482aefd9f90edf62870b0db623c87  x86.patch"
+sha512sums="44127cbe022dfb596bab25d0d617f41e013537584f52d31df891c716a6b23612fc7e28a7000a1d02378f7a7410745f22e703084070f7e2bc61d467192e924505  crystal-0.19.4.tar.gz
+e9ee60f378d1e43b89753ae337c5133d4b0c92edf43ea20d5b1d69f91716729de3e61145d8c1cc5d14e468c76d4f26269e32be7c3fbbe7afd2b6278de85bae0b  crystal
+2cd8e6f3061891e5994327a0a295bd9650334864302fab5470d95ec2483418f40db1d36e0635b618b3889cfd905d4710766a343e944fced404a6a52daeddc8d5  x86.patch"

@@ -19,15 +19,17 @@ Vagrant.configure(2) do |config|
     fi
     ln -sf /home/vagrant/.abuild/*.pub /etc/apk/keys/
 
+    sed -i 's/v3.3/v3.4/' /etc/apk/repositories
     apk update
     apk upgrade
-    apk add alpine-sdk
-    apk add crystal
+
+    apk add alpine-sdk clang llvm-static llvm-dev
+    apk add crystal yaml-dev
 
     addgroup vagrant abuild
     setup-apkcache /var/cache/apk
 
     # spec deps:
-    # apk add libxml2-dev openssl-dev readline-dev gmp-dev yaml-dev
+    #apk add libxml2-dev openssl-dev readline-dev gmp-dev
   SHELL
 end
