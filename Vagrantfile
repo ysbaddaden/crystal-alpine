@@ -22,14 +22,12 @@ Vagrant.configure(2) do |config|
     sed -i 's/v3.3/v3.4/' /etc/apk/repositories
     apk update
     apk upgrade
-
-    apk add alpine-sdk clang llvm-static llvm-dev
-    apk add crystal yaml-dev
+    apk add alpine-sdk crystal
 
     addgroup vagrant abuild
     setup-apkcache /var/cache/apk
 
     # spec deps:
-    #apk add libxml2-dev openssl-dev readline-dev gmp-dev
+    #apk add libxml2-dev openssl-dev readline-dev gmp-dev yaml-dev
   SHELL
 end

@@ -1,8 +1,8 @@
 all: crystal shards
 
 crystal:
-	vagrant ssh alpine64 -c "cd /vagrant/testing/crystal && abuild"
-	vagrant ssh alpine32 -c "cd /vagrant/testing/crystal && abuild"
+	vagrant ssh alpine64 -c "cd /vagrant/testing/crystal && abuild -r"
+	vagrant ssh alpine32 -c "cd /vagrant/testing/crystal && abuild -r"
 
 shards:
 	vagrant ssh alpine64 -c "cd /vagrant/testing/shards && abuild"
