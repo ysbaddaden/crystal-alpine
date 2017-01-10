@@ -1,7 +1,7 @@
 # Maintainer: Natanael Copa <ncopa@alpinelinux.org>
 pkgname=gc
-pkgver=7.4.2
-pkgrel=2
+pkgver=7.6.0
+pkgrel=1
 pkgdesc="A garbage collector for C and C++"
 url="http://hboehm.info/gc/"
 arch="all"
@@ -11,8 +11,6 @@ makedepends='libatomic_ops-dev linux-headers'
 subpackages="$pkgname-dev $pkgname-doc libgc++:libgccpp"
 source="http://hboehm.info/gc/gc_source/gc-$pkgver.tar.gz
 	fix-boehm-gc.patch
-	gc-push-all-eager.patch
-	fix-gc-push-all-eager.patch
 	"
 
 _builddir="$srcdir"/gc-${pkgver%[a-z]}
@@ -50,15 +48,9 @@ libgccpp() {
 	mv "$pkgdir"/usr/lib/libgccpp.* "$subpkgdir"/usr/lib/
 }
 
-md5sums="12c05fd2811d989341d8c6d81f66af87  gc-7.4.2.tar.gz
-2580315e6df59bb167b8292c351f82f5  fix-boehm-gc.patch
-e05d2af1044959155959252661b1282f  gc-push-all-eager.patch
-c44813c80404ef18402e05a3cf18c34d  fix-gc-push-all-eager.patch"
-sha256sums="63320ad7c45460e4a40e03f5aa4c6893783f21a16416c3282b994f933312afa2  gc-7.4.2.tar.gz
-da9ffdb4e7abc3deaaa19ef9de118311a8cf67268df36085c80412b1a60307d1  fix-boehm-gc.patch
-b1c0ae7bce099c2f8c87f6683566e41af1fdc4012f03d682d5952575b53042d4  gc-push-all-eager.patch
-960e4e3d0b2eb808e0a5ab27cbf4aaefc083647348660331e384b9d7bbda6d6f  fix-gc-push-all-eager.patch"
-sha512sums="2e21516addf268780641ee55c0cb3ecc2d96fa963faffee5beadcade9c6bf1ee49ee1a75b076b5d49ddde7c839fb94f4c3623ca8412d14c2a5bf6ca30d424a72  gc-7.4.2.tar.gz
-f2b533f0a96dabf8ed33316c393ea2878cb3968879e50155c71fbb50bf0cad3fe08836847dcc5c2bc32ad2dae64b8607bf92fa863224e3ca407ef62d61b663bb  fix-boehm-gc.patch
-b74a5793ab56a7dd836600a30ead7bdf9652c5803f785e5128770852362d927f822447dcb6040e9f73227fa6fcf964a45f6fa2928af8626eac8a21dbf94506b6  gc-push-all-eager.patch
-f35b91adfe8a39bb2ad7f07e0b2f2cf7300fd57674d2548f9f761ac00fa9272b9dc6269b69663f99ed15b13df4ce2c7b3a3c6690df6b1126f763e17999ea6bff  fix-gc-push-all-eager.patch"
+md5sums="bf46ccbdaccfa3186c2ab87191c8855a  gc-7.6.0.tar.gz
+9ed04613b296f91c4cb74aef0659f744  fix-boehm-gc.patch"
+sha256sums="a14a28b1129be90e55cd6f71127ffc5594e1091d5d54131528c24cd0c03b7d90  gc-7.6.0.tar.gz
+d42e48594f41825251ef9bfc085d2f8bedcf1dfed8620048402dfd1dd759e23f  fix-boehm-gc.patch"
+sha512sums="511e8c01287b1ee9dbec87f0573377de77038b7af053a3f33afed9b3ffa30e2402d6a9bb0ca4f4b81cd808209b47b5718d498cff3de6632a057fe03fad51fc43  gc-7.6.0.tar.gz
+6439505931f0d023bf27d6ce0af90d09dc23bb9dd49b561566ec54b2cddc20642be9bd7b41203f643cb6efed3db2f54aef410b436f3acc2351fe4bb0a8791ea4  fix-boehm-gc.patch"
