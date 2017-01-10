@@ -1,8 +1,8 @@
 # Contributor: Julien Portalier <julien@portalier.com>
 # Maintainer: Julien Portalier <julien@portalier.com>
 pkgname=crystal
-pkgver=0.19.4
-pkgrel=2
+pkgver=0.20.0
+pkgrel=1
 pkgdesc="Crystal programming language"
 url="http://crystal-lang.org/"
 arch="all"
@@ -14,17 +14,17 @@ subpackages=""
 source="
 	saveas-https://github.com/crystal-lang/crystal/archive/$pkgver.tar.gz/$pkgname-$pkgver.tar.gz
 	crystal
-    x86.patch
+    fix-dwarf-line-numbers-with-musl.patch
 	"
 _builddir="$srcdir"/$pkgname-$pkgver
 
 prepare() {
 	cd "$_builddir"
+    patch -p1 < "$srcdir"/fix-dwarf-line-numbers-with-musl.patch
 }
 
 build() {
 	cd "$_builddir"
-    patch -p1 < "$srcdir"/x86.patch
 	export CRYSTAL_CONFIG_VERSION=$pkgver
 	make release=1 || return 1
 }
@@ -43,13 +43,12 @@ package() {
 	find "$_libdir"/ -type d -exec chmod 0755 {} \;
 	find "$_libdir"/src -type f -exec chmod 0644 {} \;
 }
-
-md5sums="27ebd5a7add2863d0241343f95df7075  crystal-0.19.4.tar.gz
-dc2b929a6b4dc811a10f3379fc42b05c  crystal
-362aca53e484f15546ead26f7e82675a  x86.patch"
-sha256sums="e239afa449744e0381823531f6af66407ba1f4b78767bd67a9bb09d9fcc6b9e4  crystal-0.19.4.tar.gz
-61f19f4ac097b58f6613b01d9cefef10aee79474d2abf93889afec75f7d2a425  crystal
-5e92959b7a6a5b17df495f3aa997d9babd8482aefd9f90edf62870b0db623c87  x86.patch"
-sha512sums="44127cbe022dfb596bab25d0d617f41e013537584f52d31df891c716a6b23612fc7e28a7000a1d02378f7a7410745f22e703084070f7e2bc61d467192e924505  crystal-0.19.4.tar.gz
-933cceea1f59055450104e37ef7230038dadb2a5e24bceb011151f43c7738a544334eb411f77760f8be3cbcffe65c56ce88d1e377b7ac6d2e6006eda199749fd  crystal
-2cd8e6f3061891e5994327a0a295bd9650334864302fab5470d95ec2483418f40db1d36e0635b618b3889cfd905d4710766a343e944fced404a6a52daeddc8d5  x86.patch"
+md5sums="c92e06237a0ebef86708abde38d41b7b  crystal-0.20.0.tar.gz
+6385fa702633a19abafb50cbc4e3e6fe  crystal
+2dba6a7f9e30d63e443fa4e277ea710f  fix-dwarf-line-numbers-with-musl.patch"
+sha256sums="97118becc450cdfbafd881f8e98e93d9373d71b4994f49f41dec1eaf081e8894  crystal-0.20.0.tar.gz
+aff61e7c3685133a827930822dacc30a831b27b40cb3d03a26df91f9f6f3a9ed  crystal
+35dad9df79a69e903677109b1d0e667c3ec42509ac4b78571af39a8a979ae060  fix-dwarf-line-numbers-with-musl.patch"
+sha512sums="0b3c2dbdb9a6f76d1acffc59f637e05ae26eb652a3ec57956c7074848de3540a5c9b7e5c612908dfef59e9319c67827dc9847da563b688f63bddc4f122699cb1  crystal-0.20.0.tar.gz
+1f77a528d3dd5ca041a95bd97902c9f6a246fdeab7ceee538704f34bf3003b482f660d0fffeb0c538856767eac93610fe092b7c71d8e6736bd1919bd0cf6e2e5  crystal
+c71b278f481b3d7c69ca7429fa01768df3d3c3ade1613ce003c742cdd65cdec8de6b4089152170e9be2b31e62eb9ffbe2b3d0c4d546f3f98febfd1e33bd3bbf7  fix-dwarf-line-numbers-with-musl.patch"
