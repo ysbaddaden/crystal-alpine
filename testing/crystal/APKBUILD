@@ -1,7 +1,7 @@
 # Contributor: Julien Portalier <julien@portalier.com>
 # Maintainer: Julien Portalier <julien@portalier.com>
 pkgname=crystal
-pkgver=0.20.3
+pkgver=0.20.4
 pkgrel=1
 pkgdesc="Crystal programming language"
 url="http://crystal-lang.org/"
@@ -43,12 +43,12 @@ package() {
 	find "$_libdir"/ -type d -exec chmod 0755 {} \;
 	find "$_libdir"/src -type f -exec chmod 0644 {} \;
 }
-md5sums="9bb348414c5242732adbb72daefa8377  crystal-0.20.3.tar.gz
+md5sums="68b665a6a6d25102d107ed844b05c35c  crystal-0.20.4.tar.gz
 6385fa702633a19abafb50cbc4e3e6fe  crystal
 2dba6a7f9e30d63e443fa4e277ea710f  fix-dwarf-line-numbers-with-musl.patch"
-sha256sums="5372ba2a35d885345207047a51b9389f9190fd12389847e7f7298618bcf59ad6  crystal-0.20.3.tar.gz
+sha256sums="fd099f278b71bbb5cad1927c93933d1feba554fbf8f6f4ab9165f535765f5e31  crystal-0.20.4.tar.gz
 aff61e7c3685133a827930822dacc30a831b27b40cb3d03a26df91f9f6f3a9ed  crystal
 35dad9df79a69e903677109b1d0e667c3ec42509ac4b78571af39a8a979ae060  fix-dwarf-line-numbers-with-musl.patch"
-sha512sums="e0a30a43d1f1a92e50c03f3ef281e1e8feecef6506f77d83bc52c3d46d57da80f656e3092ab1866c6fcc9bcb6ed12d0a4eab6ddd49fc2312904b56fe9cab5aab  crystal-0.20.3.tar.gz
+sha512sums="1ded5cf104314b6b8b76fa519ec87a913a40a8bdb82445fe78b3f942567abe8c354cefcdd360c365e0c9f0756fc0e4819eec681584c11f94c9838e9a61ec89fe  crystal-0.20.4.tar.gz
 1f77a528d3dd5ca041a95bd97902c9f6a246fdeab7ceee538704f34bf3003b482f660d0fffeb0c538856767eac93610fe092b7c71d8e6736bd1919bd0cf6e2e5  crystal
 c71b278f481b3d7c69ca7429fa01768df3d3c3ade1613ce003c742cdd65cdec8de6b4089152170e9be2b31e62eb9ffbe2b3d0c4d546f3f98febfd1e33bd3bbf7  fix-dwarf-line-numbers-with-musl.patch"
