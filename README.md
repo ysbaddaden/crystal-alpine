@@ -1,5 +1,7 @@
 # Crystal on Alpine Linux (APKBUILD)
 
+See http://public.portalier.com/alpine for an APK repository.
+
 ## Requirements
 
 - Linux host;
