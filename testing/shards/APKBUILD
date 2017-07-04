@@ -28,6 +28,4 @@ package() {
     install -Dm0755 "$_builddir"/bin/shards "$pkgdir"/usr/bin/shards
 }
 
-md5sums="ab38cb47e97f93ffd7960dbcca33b5d6  shards-0.7.1.tar.gz"
-sha256sums="31de819c66518479682ec781a39ef42c157a1a8e6e865544194534e2567cb110  shards-0.7.1.tar.gz"
 sha512sums="9371df40a5c5f0f809c5febcbdede6c743e2a0f1898d648ecb8c2be69ed746bdb879eb3653cd2c7aacd43148ac8536c401b119fcf63039b866e284e8003e73ee  shards-0.7.1.tar.gz"
