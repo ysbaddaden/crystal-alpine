@@ -2,7 +2,7 @@
 # Maintainer: Julien Portalier <julien@portalier.com>
 pkgname=shards
 pkgver=0.7.1
-pkgrel=1
+pkgrel=2
 pkgdesc="Dependency manager for the Crystal programming language"
 url="https://github.com/crystal-lang/shards/"
 arch="all"
