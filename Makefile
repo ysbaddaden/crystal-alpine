@@ -5,15 +5,16 @@ crystal:
 	vagrant ssh alpine32 -c "cd /vagrant/testing/crystal && abuild -r"
 
 shards:
-	vagrant ssh alpine64 -c "cd /vagrant/testing/shards && abuild"
-	vagrant ssh alpine32 -c "cd /vagrant/testing/shards && abuild"
+	vagrant ssh alpine64 -c "cd /vagrant/testing/shards && abuild -r"
+	vagrant ssh alpine32 -c "cd /vagrant/testing/shards && abuild -r"
 
 checksum:
 	vagrant ssh alpine64 -c "cd /vagrant/testing/crystal && abuild checksum"
 	vagrant ssh alpine64 -c "cd /vagrant/testing/shards && abuild checksum"
 
 up:
-	vagrant up --provision
+	vagrant up
+	vagrant provision
 
 halt:
 	vagrant ssh alpine64 -c "sudo halt"
