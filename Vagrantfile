@@ -2,7 +2,7 @@ Vagrant.configure(2) do |config|
   config.ssh.shell = "sh"
 
   config.vm.synced_folder "./conf", "/home/vagrant/.abuild"
-  config.vm.synced_folder "./packages", "/home/vagrant/packages"
+  config.vm.synced_folder "./packages/testing/", "/home/vagrant/packages/testing"
 
   %w(alpine32 alpine64).each do |box_name|
     config.vm.define box_name do |app|
