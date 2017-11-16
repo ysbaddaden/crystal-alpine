@@ -14,12 +14,11 @@ Vagrant.configure(2) do |config|
   end
 
   config.vm.provision "shell", inline: <<-SHELL
-    if ! $(grep -q /home/vagrant/packages /etc/apk/repositories); then
-      echo "file:///home/vagrant/packages/testing" >> /etc/apk/repositories
-    fi
+    echo "http://dl-cdn.alpinelinux.org/alpine/v3.6/main" > /etc/apk/repositories
+    echo "http://dl-cdn.alpinelinux.org/alpine/v3.6/community" >> /etc/apk/repositories
+    echo "file:///home/vagrant/packages/testing" >> /etc/apk/repositories
     ln -sf /home/vagrant/.abuild/*.pub /etc/apk/keys/
 
-    sed -i 's/v3.3/v3.4/' /etc/apk/repositories
     apk update
     apk upgrade
     apk add alpine-sdk crystal

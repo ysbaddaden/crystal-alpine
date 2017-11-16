@@ -1,8 +1,8 @@
 # Contributor: Julien Portalier <julien@portalier.com>
 # Maintainer: Julien Portalier <julien@portalier.com>
 pkgname=shards
-pkgver=0.7.1
-pkgrel=2
+pkgver=0.7.2
+pkgrel=1
 pkgdesc="Dependency manager for the Crystal programming language"
 url="https://github.com/crystal-lang/shards/"
 arch="all"
@@ -28,4 +28,4 @@ package() {
     install -Dm0755 "$_builddir"/bin/shards "$pkgdir"/usr/bin/shards
 }
 
-sha512sums="9371df40a5c5f0f809c5febcbdede6c743e2a0f1898d648ecb8c2be69ed746bdb879eb3653cd2c7aacd43148ac8536c401b119fcf63039b866e284e8003e73ee  shards-0.7.1.tar.gz"
+sha512sums="a99648ae292095278578e47971b556a0da90743db62689a76aae9eab986ad2185ad7adc13c4340f12fce835c5383d8aac93e35258d01fa658e521314eafaf942  shards-0.7.2.tar.gz"
