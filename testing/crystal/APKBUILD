@@ -1,14 +1,14 @@
 # Contributor: Julien Portalier <julien@portalier.com>
 # Maintainer: Julien Portalier <julien@portalier.com>
 pkgname=crystal
-pkgver=0.24.1
+pkgver=0.24.2
 pkgrel=1
 pkgdesc="Crystal programming language"
 url="http://crystal-lang.org/"
 arch="all"
 license="ASL 2.0"
-depends="llvm4-libs gc-dev libc-dev libevent-dev pcre-dev"
-makedepends="bash llvm4-dev ncurses-dev zlib-dev"
+depends="llvm5-libs gc-dev libc-dev libevent-dev pcre-dev"
+makedepends="llvm5-dev ncurses-dev zlib-dev"
 install=""
 subpackages=""
 source="
