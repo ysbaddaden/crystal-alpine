@@ -1,3 +1,0 @@
-#!/usr/bin/env sh
-export CRYSTAL_PATH=${CRYSTAL_PATH:-"lib:/usr/lib/crystal/src"}
-"/usr/bin/crystal-binary" "$@"
