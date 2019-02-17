@@ -9,8 +9,8 @@ RUN apt-get -qq update && apt-get -y -qq install curl llvm-5.0-dev
 ARG CRYSTAL_VERSION
 ARG CRYSTAL_SOURCE=https://github.com/crystal-lang/crystal/archive/${CRYSTAL_VERSION}.tar.gz
 RUN curl -sL ${CRYSTAL_SOURCE} | tar xz -C /tmp
-RUN cd /tmp/crystal-${CRYSTAL_VERSION} && make release=1 stats=1 \
-        FLAGS="--cross-compile --target=x86_64-unknown-linux-musl"
+RUN cd /tmp/crystal-${CRYSTAL_VERSION} && make release=1 stats=1 threads=1 \
+        FLAGS="--cross-compile --target=x86_64-alpine-linux-musl"
 
 
 FROM alpine:latest
@@ -42,7 +42,7 @@ RUN cd /opt/crystal && make deps -B
 RUN cd /opt/crystal && gcc crystal.o -o bin/crystal \
         -lpthread -lgc -lpcre -levent src/ext/libcrystal.a \
         `llvm-config --libs --ldflags` src/llvm/ext/llvm_ext.o -lstdc++
-RUN rm /opt/crystal/crystal.o
+RUN rm /opt/crystal/crystal.o /opt/crystal/Makefile
 
 # add wrapper script:
 COPY crystal.sh /usr/local/bin/crystal
@@ -56,7 +56,7 @@ RUN cd /tmp/shards-${SHARDS_VERSION} && \
         make CRFLAGS="--release --stats" && \
         mv /tmp/shards-${SHARDS_VERSION}/bin/shards /usr/local/bin/
 
-# copy some static libraries to reduce the image size:
+# copy some static libraries to reduce image size:
 RUN set -eux; \
     mkdir -p /opt/crystal/embedded/lib; \
     cp /usr/lib/libgc.a /opt/crystal/embedded/lib/; \
@@ -64,6 +64,7 @@ RUN set -eux; \
     cp /usr/lib/libpcre*.a /opt/crystal/embedded/lib/
 
 # cleanup:
-RUN rm -rf /tmp/shards-${SHARDS_VERSION} && \
+RUN apk del .build-deps && \
+        rm -rf /tmp/shards-${SHARDS_VERSION} && \
         rm -rf /root/.cache && \
-        apk del .build-deps
+        rm -rf /var/cache/apk/*
