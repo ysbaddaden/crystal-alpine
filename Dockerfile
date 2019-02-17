@@ -30,7 +30,7 @@ RUN set -eux; \
     mkdir -p /opt/crystal/bin; \
     mv /tmp/crystal-${CRYSTAL_VERSION}/src /opt/crystal/; \
     mv /tmp/crystal-${CRYSTAL_VERSION}/.build/crystal /opt/crystal/bin/; \
-    mv /tmp/shards-${SHARDS_VERSION}/src /usr/local/bin/
+    mv /tmp/shards-${SHARDS_VERSION}/bin/shards /usr/local/bin/
 
 # copy some static libraries to reduce the image size:
 RUN set -eux; \
